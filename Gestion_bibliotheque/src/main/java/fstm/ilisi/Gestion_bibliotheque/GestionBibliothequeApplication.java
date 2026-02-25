@@ -4,9 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import fstm.ilisi.Gestion_bibliotheque.entity.Produit;
 import fstm.ilisi.Gestion_bibliotheque.repository.ProduitRepository;
@@ -28,11 +25,6 @@ public class GestionBibliothequeApplication implements CommandLineRunner {
 		// produitRepository.save(new Produit(null, "Ordinateur portable HP", "Informatique", "https://images.unsplash.com/photo-1496181133206-80ce9b88a853", "PC portable 15 pouces, 8GB RAM", 899.99, 5));
 		// produitRepository.save(new Produit(null, "Écouteurs Bluetooth", "Audio", "https://images.unsplash.com/photo-1505740420928-5e560c06d30e", "Écouteurs sans fil avec réduction de bruit", 79.99, 20));
 		// produitRepository.save(new Produit(null, "Tablette iPad", "Electronique", "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0", "Tablette 10 pouces, 64GB", 449.99, 8));
-	}
-
-	@Bean
-	public PasswordEncoder passwordEncoder(){
-		return new BCryptPasswordEncoder();
 	}
 
 }

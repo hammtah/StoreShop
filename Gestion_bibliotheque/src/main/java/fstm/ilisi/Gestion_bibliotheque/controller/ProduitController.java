@@ -28,7 +28,7 @@ public class ProduitController {
     
     // Chemin pour stocker les images uploadées
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
-
+    
     public ProduitController(ProduitRepository produitRepository) {
         this.produitRepository = produitRepository;
     }
@@ -72,7 +72,6 @@ public class ProduitController {
                             @RequestParam(name = "search", defaultValue = "") String search,
                             @RequestParam(name = "imageFile", required = false) MultipartFile imageFile) {
         
-        // Gérer l'upload de l'image si un fichier est fourni
         if (imageFile != null && !imageFile.isEmpty()) {
             try {
                 String fileName = saveImageFile(imageFile);
