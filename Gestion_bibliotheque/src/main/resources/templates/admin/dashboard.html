@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div th:insert="~{template1 :: navbar}"></div>
+
+    <div class="container mt-5">
+        <div class="row mb-4">
+            <div class="col">
+                <h1 class="display-4">🎯 Dashboard Administrateur</h1>
+                <p class="lead">Bienvenue <strong sec:authentication="name">Admin</strong> - Gérez votre application</p>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Gestion des Produits -->
+            <div class="col-md-6">
+                <div class="card dashboard-card" onclick="window.location.href='/admin/produits'">
+                    <div class="card-body text-center p-5">
+                        <div class="icon-large text-primary">📚</div>
+                        <h3 class="card-title">Gestion des Produits</h3>
+                        <p class="card-text text-muted">
+                            Ajouter, modifier ou supprimer des produits de la bibliothèque
+                        </p>
+                        <a th:href="@{/admin/produits}" class="btn btn-primary btn-lg mt-3">
+                            Accéder <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gestion des Utilisateurs -->
+            <div class="col-md-6">
+                <div class="card dashboard-card" onclick="window.location.href='/admin/users'">
+                    <div class="card-body text-center p-5">
+                        <div class="icon-large text-success">👥</div>
+                        <h3 class="card-title">Gestion des Utilisateurs</h3>
+                        <p class="card-text text-muted">
+                            Gérer les comptes utilisateurs et leurs rôles
+                        </p>
+                        <a th:href="@{/admin/users}" class="btn btn-success btn-lg mt-3">
+                            Accéder <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <h5>📊 Informations Système</h5>
+                    <p class="mb-0">Vous êtes connecté en tant qu'administrateur avec tous les privilèges.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

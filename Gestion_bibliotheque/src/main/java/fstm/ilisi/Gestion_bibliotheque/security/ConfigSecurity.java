@@ -24,7 +24,7 @@ public class ConfigSecurity {
         return httpSecurity
                 .formLogin(form -> form
                     .loginPage("/login")
-                    .defaultSuccessUrl("/index", true)
+                    .defaultSuccessUrl("/admin/dashboard", true)
                     .permitAll()
                 )
                 .userDetailsService(userDetailsServiceImpl)
@@ -33,8 +33,8 @@ public class ConfigSecurity {
                     .permitAll()
                 )
                 .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/uploads/**").permitAll()
-                    .requestMatchers("/deleteProduit/**", "/addProduit", "/editProduit/**").hasRole("ADMIN")
+                    .requestMatchers("/login", "/css/**", "/js/**", "/images/**", "/uploads/**", "/webjars/**").permitAll()
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 )
                 .build();

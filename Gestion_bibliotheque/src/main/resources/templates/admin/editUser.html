@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier un Utilisateur</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/user-management.css}" />
+    <script th:src="@{/webjars/bootstrap/5.3.8/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <div th:insert="~{template1 :: navbar}"></div>
+
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h2 class="mb-0">✏️ Modifier l'Utilisateur</h2>
+            </div>
+            <div class="card-body">
+                <form method="post" th:action="@{/admin/users/edit}">
+                    <input type="hidden" name="userId" th:value="${user.userId}">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nom d'utilisateur *</label>
+                                <input type="text" class="form-control" id="username" name="username" 
+                                       th:value="${user.username}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       th:value="${user.email}" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Nouveau mot de passe</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                        <small class="form-text text-muted">Laissez vide pour conserver le mot de passe actuel</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Rôles</label>
+                        <div th:each="role : ${allRoles}">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="roles" 
+                                       th:value="${role.roleName}" 
+                                       th:id="${'role_' + role.roleName}"
+                                       th:checked="${user.roles.contains(role)}">
+                                <label class="form-check-label" th:for="${'role_' + role.roleName}">
+                                    <span th:class="${role.roleName == 'ADMIN' ? 'badge bg-danger' : 'badge bg-primary'}"
+                                          th:text="${role.roleName}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-warning">💾 Enregistrer</button>
+                        <a th:href="@{/admin/users}" class="btn btn-secondary">🚫 Annuler</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

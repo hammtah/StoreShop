@@ -9,6 +9,8 @@ public interface AccountService {
     void AddRoleToUser(String username, String roleName);
     void removeRoleFromUser(String username, String roleName);
     AppUser loadUserByUsername(String username);
-
     
+    // Méthodes utilitaires pour initialisation
+    AppRole ensureRoleExists(String roleName);
+    AppUser ensureUserExists(String username, String password, String email);
 }

@@ -1,8 +1,8 @@
 package fstm.ilisi.Gestion_bibliotheque.service;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,13 +50,52 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    // Méthode utilitaire pour créer un rôle uniquement s'il n'existe pas
+    public AppRole ensureRoleExists(String roleName) {
+        AppRole appRole = appRoleRepository.findByRoleName(roleName);
+        if (appRole == null) {
+            appRole = AppRole.builder()
+                    .roleName(roleName)
+                    .build();
+            appRole = appRoleRepository.save(appRole);
+        }
+        return appRole;
+    }
+
+    @Override
+    // Méthode utilitaire pour créer un utilisateur uniquement s'il n'existe pas
+    public AppUser ensureUserExists(String username, String password, String email) {
+        AppUser appUser = appUserRepository.findByUsername(username);
+        if (appUser == null) {
+            appUser = AppUser.builder()
+                    .userId(UUID.randomUUID().toString())
+                    .username(username)
+                    .password(passwordEncoder.encode(password))
+                    .email(email)
+                    .roles(new ArrayList<>())
+                    .build();
+            appUser = appUserRepository.save(appUser);
+        }
+        return appUser;
+    }
+
+    @Override
     public void AddRoleToUser(String username, String roleName) {
 
         AppUser appUser = appUserRepository.findByUsername(username);
         if (appUser == null) throw new RuntimeException("User not found");
         AppRole appRole = appRoleRepository.findById(roleName).get();
         if (appRole == null) throw new RuntimeException("Role not found");
-        appUser.getRoles().add(appRole);
+        
+        // Initialiser la liste de rôles si elle est null
+        if (appUser.getRoles() == null) {
+            appUser.setRoles(new ArrayList<>());
+        }
+        
+        // Vérifier si l'utilisateur a déjà ce rôle
+        if (!appUser.getRoles().contains(appRole)) {
+            appUser.getRoles().add(appRole);
+        }
         // methode transactionnelle pas besion de faire save(appUser)
         // appUserRepository.save(appUser);
     }

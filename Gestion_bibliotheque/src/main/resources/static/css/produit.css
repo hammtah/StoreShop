@@ -1,0 +1,91 @@
+/* produit.css - Styles pour la gestion des produits */
+
+.produit-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+.produit-card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 1.5rem;
+}
+
+.produit-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.table-produit {
+    margin-top: 1.5rem;
+}
+
+.table-produit thead {
+    background-color: #343a40;
+    color: white;
+}
+
+.table-produit tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table-produit tbody tr:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.01);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.produit-search-form {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.produit-actions .btn {
+    margin-right: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.produit-actions .btn:hover {
+    transform: translateY(-2px);
+}
+
+.pagination {
+    margin-top: 1.5rem;
+}
+
+.pagination .page-link {
+    color: #667eea;
+    border-radius: 5px;
+    margin: 0 3px;
+}
+
+.pagination .page-link.active {
+    background-color: #667eea;
+    border-color: #667eea;
+    color: white;
+}
+
+.produit-form-card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-top: 2rem;
+}
+
+.form-floating .form-control {
+    border-radius: 8px;
+}
+
+.image-preview {
+    max-width: 200px;
+    margin-top: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}

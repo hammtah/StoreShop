@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +22,7 @@ import fstm.ilisi.Gestion_bibliotheque.entity.Produit;
 import fstm.ilisi.Gestion_bibliotheque.repository.ProduitRepository;
 
 @Controller
+@RequestMapping("/admin/produits")
 public class ProduitController {
     
     //dipendance injection
@@ -33,7 +35,7 @@ public class ProduitController {
         this.produitRepository = produitRepository;
     }
 
-    @GetMapping("/index")
+    @GetMapping
     public String index(Model model,
       @RequestParam(name = "page", defaultValue = "0") int page,
       @RequestParam(name = "size", defaultValue = "5") int size,
@@ -44,18 +46,18 @@ public class ProduitController {
         model.addAttribute("pages", new int[produitsPage.getTotalPages()]);
         model.addAttribute("currentPage", page);
         model.addAttribute("search", search);
-        return "ListeProduit";
+        return "produit/ListeProduit";
     }
 
-    @GetMapping("/deleteProduit")
+    @GetMapping("/delete")
     public String deleteProduit(@RequestParam(name = "id") Long id,
                           @RequestParam(name = "page", defaultValue = "0") int page,
                           @RequestParam(name = "search", defaultValue = "") String search) {
         produitRepository.deleteById(id);
-        return "redirect:/index?page=" + page + "&search=" + search;
+        return "redirect:/admin/produits?page=" + page + "&search=" + search;
     }
 
-    @GetMapping("/editProduit")
+    @GetMapping("/edit")
     public String showEditForm(@RequestParam(name = "id") Long id,
                                @RequestParam(name = "search", defaultValue = "") String search,
                                Model model) {
@@ -64,10 +66,10 @@ public class ProduitController {
         
          model.addAttribute("produit", produit);
          model.addAttribute("search", search);
-        return "editProduit";
+        return "produit/editProduit";
     }
 
-    @PostMapping("/editProduit")
+    @PostMapping("/edit")
     public String saveProduit(@ModelAttribute Produit produit,
                             @RequestParam(name = "search", defaultValue = "") String search,
                             @RequestParam(name = "imageFile", required = false) MultipartFile imageFile) {
@@ -83,18 +85,18 @@ public class ProduitController {
         }
         
         produitRepository.save(produit);
-        return "redirect:/index?search=" + search;
+        return "redirect:/admin/produits?search=" + search;
     }
 
-    @GetMapping("/addProduit")
+    @GetMapping("/add")
     public String showAddForm(@RequestParam(name = "search", defaultValue = "") String search,
                             Model model) {
         model.addAttribute("produit", new Produit());
         model.addAttribute("search", search);
-        return "ajouterProduit";
+        return "produit/ajouterProduit";
     }
 
-    @PostMapping("/addProduit")
+    @PostMapping("/add")
     public String addProduit(@ModelAttribute Produit produit,
                             @RequestParam(name = "search", defaultValue = "") String search,
                             @RequestParam(name = "imageFile", required = false) MultipartFile imageFile) {
@@ -111,12 +113,12 @@ public class ProduitController {
         }
         
         produitRepository.save(produit);
-        return "redirect:/index?search=" + search;
+        return "redirect:/admin/produits?search=" + search;
     }
 
     @GetMapping("/")
     public String home() {
-        return "redirect:/index";
+        return "redirect:/admin/dashboard";
     }
     
     // Méthode pour sauvegarder l'image uploadée
