@@ -5,11 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import fstm.ilisi.Gestion_bibliotheque.service.UserDetailsServiceImlp;
+import fstm.ilisi.Gestion_bibliotheque.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 
 @Configuration
@@ -17,13 +15,8 @@ import lombok.AllArgsConstructor;
 @EnableMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class ConfigSecurity {
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
-    private UserDetailsServiceImlp userDetailsServiceImlp;
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -34,7 +27,7 @@ public class ConfigSecurity {
                     .defaultSuccessUrl("/index", true)
                     .permitAll()
                 )
-                .userDetailsService(userDetailsServiceImlp)
+                .userDetailsService(userDetailsServiceImpl)
                 .logout(logout -> logout
                     .logoutSuccessUrl("/login?logout")
                     .permitAll()

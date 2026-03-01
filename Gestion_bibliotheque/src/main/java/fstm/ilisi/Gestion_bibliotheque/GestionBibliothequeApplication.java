@@ -29,7 +29,7 @@ public class GestionBibliothequeApplication implements CommandLineRunner {
 		// produitRepository.save(new Produit(null, "Tablette iPad", "Electronique", "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0", "Tablette 10 pouces, 64GB", 449.99, 8));
 	}
 
-	@Bean
+	// @Bean
 
 	CommandLineRunner CommandeLineRunnerDetails(AccountService accountService) { 
 		return args -> {
