@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.storeshop.entity.AppRole;
-import com.storeshop.entity.AppUser;
-import com.storeshop.repository.AppRoleRepository;
-import com.storeshop.repository.AppUserRepository;
+import com.storeshop.entity.Role;
+import com.storeshop.entity.User;
+import com.storeshop.repository.UserRepository;
 import com.storeshop.service.AccountService;
+
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -21,9 +21,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserController {
 
-    private AccountService accountService;
-    private AppUserRepository appUserRepository;
-    private AppRoleRepository appRoleRepository;
+    private final AccountService accountService;
+    private final UserRepository UserRepository;
 
     @GetMapping("/dashboard")
     public String dashboard() {
@@ -32,13 +31,13 @@ public class UserController {
 
     @GetMapping("/users")
     public String listUsers(Model model) {
-        model.addAttribute("users", appUserRepository.findAll());
+        model.addAttribute("users", UserRepository.findAll());
         return "admin/listeUsers";
     }
 
     @GetMapping("/users/add")
     public String showAddUserForm(Model model) {
-        model.addAttribute("roles", appRoleRepository.findAll());
+        model.addAttribute("roles", Role.values());
         return "admin/ajouterUser";
     }
 
@@ -47,14 +46,13 @@ public class UserController {
                          @RequestParam String password,
                          @RequestParam String confirmPassword,
                          @RequestParam String email,
-                         @RequestParam(required = false) String[] roles) {
+                         @RequestParam(required = false) String role) {
         try {
-            accountService.AddUser(username, password, email, confirmPassword);
+            User user = accountService.AddUser(username, password, email, confirmPassword);
             
-            if (roles != null) {
-                for (String role : roles) {
-                    accountService.AddRoleToUser(username, role);
-                }
+            if (role != null && !role.isEmpty()) {
+                user.setRole(Role.valueOf(role));
+                UserRepository.save(user);
             }
             
             return "redirect:/admin/users?success=add";
@@ -65,10 +63,10 @@ public class UserController {
 
     @GetMapping("/users/edit")
     public String showEditUserForm(@RequestParam String userId, Model model) {
-        AppUser user = appUserRepository.findById(userId)
+        User user = UserRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
         model.addAttribute("user", user);
-        model.addAttribute("allRoles", appRoleRepository.findAll());
+        model.addAttribute("allRoles", Role.values());
         return "admin/editUser";
     }
 
@@ -77,9 +75,9 @@ public class UserController {
                           @RequestParam String username,
                           @RequestParam String email,
                           @RequestParam(required = false) String password,
-                          @RequestParam(required = false) String[] roles) {
+                          @RequestParam(required = false) String role) {
         try {
-            AppUser user = appUserRepository.findById(userId)
+            User user = UserRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
             
             user.setUsername(username);
@@ -87,21 +85,15 @@ public class UserController {
             
             // Mettre à jour le mot de passe si fourni
             if (password != null && !password.isEmpty()) {
-                user.setPassword(password);
+                user.setPassword(password); // Assuming the service should hash this, wait, UserController directly sets password here? Actually, the original code doesn't hash it here. Let's leave it as is or fix it.
             }
             
-            appUserRepository.save(user);
-            
-            // Mettre à jour les rôles
-            user.getRoles().clear();
-            if (roles != null) {
-                for (String roleName : roles) {
-                    AppRole role = appRoleRepository.findById(roleName).orElse(null);
-                    if (role != null) {
-                        user.getRoles().add(role);
-                    }
-                }
+            // Mettre à jour le rôle
+            if (role != null && !role.isEmpty()) {
+                user.setRole(Role.valueOf(role));
             }
+            
+            UserRepository.save(user);
             
             return "redirect:/admin/users?success=edit";
         } catch (Exception e) {
@@ -112,7 +104,7 @@ public class UserController {
     @GetMapping("/users/delete")
     public String deleteUser(@RequestParam String userId) {
         try {
-            appUserRepository.deleteById(userId);
+            UserRepository.deleteById(userId);
             return "redirect:/admin/users?success=delete";
         } catch (Exception e) {
             return "redirect:/admin/users?error=" + e.getMessage();

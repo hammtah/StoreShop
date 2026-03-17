@@ -1,11 +1,12 @@
 package com.storeshop.repository;
 
-import com.storeshop.entity.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.storeshop.entity.User;
+
 
 @Repository
-public interface AppUserRepository extends JpaRepository<AppUser, String> {
-    AppUser findByUsername(String username);
+public interface UserRepository extends JpaRepository<User, String> {
+    User findByUsername(String username);
 }

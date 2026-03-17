@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.storeshop.entity.Produit;
 import com.storeshop.repository.ProduitRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -38,11 +39,11 @@ public class ProduitServiceImpl implements ProduitService {
     @Override
     public Produit saveProduit(Produit produit) {
         // Validation de base
-        if (produit.getNom() == null || produit.getNom().trim().isEmpty()) {
+        if (produit.getName() == null || produit.getName().trim().isEmpty()) {
             throw new RuntimeException("Le nom du produit ne peut pas etre vide");
         }
 
-        if (produit.getPrix() < 0) {
+        if (produit.getPrice() < 0) {
             throw new RuntimeException("Le prix ne peut pas être negatif");
         }
         

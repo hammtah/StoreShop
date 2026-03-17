@@ -39,22 +39,22 @@ class ProduitServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        categorie = new Categorie(1L, "Electronique", null);
+        categorie = new Categorie(1L, null, "Electronique");
 
         produit1 = new Produit();
         produit1.setId(1L);
-        produit1.setNom("Smartphone");
+        produit1.setName("Smartphone");
         produit1.setCategorie(categorie);
         produit1.setDescription("Telephone haut de gamme");
-        produit1.setPrix(599.99);
+        produit1.setPrice(599.99);
         produit1.setStock(10);
 
         produit2 = new Produit();
         produit2.setId(2L);
-        produit2.setNom("Laptop");
+        produit2.setName("Laptop");
         produit2.setCategorie(categorie);
         produit2.setDescription("PC portable");
-        produit2.setPrix(899.99);
+        produit2.setPrice(899.99);
         produit2.setStock(5);
     }
 
@@ -91,8 +91,8 @@ class ProduitServiceImplTest {
         Produit result = produitService.getProduitById(1L);
 
         assertNotNull(result);
-        assertEquals("Smartphone", result.getNom());
-        assertEquals(599.99, result.getPrix());
+        assertEquals("Smartphone", result.getName());
+        assertEquals(599.99, result.getPrice());
     }
 
     @Test
@@ -115,7 +115,7 @@ class ProduitServiceImplTest {
         Produit result = produitService.saveProduit(produit1);
 
         assertNotNull(result);
-        assertEquals("Smartphone", result.getNom());
+        assertEquals("Smartphone", result.getName());
         verify(produitRepository).save(produit1);
     }
 
@@ -123,8 +123,8 @@ class ProduitServiceImplTest {
     @DisplayName("saveProduit - echec si le nom est vide")
     void testSaveProduit_EmptyName() {
         Produit invalidProduit = new Produit();
-        invalidProduit.setNom("");
-        invalidProduit.setPrix(10.0);
+        invalidProduit.setName("");
+        invalidProduit.setPrice(10.0);
         invalidProduit.setStock(5);
 
         RuntimeException exception = assertThrows(RuntimeException.class,
@@ -138,8 +138,8 @@ class ProduitServiceImplTest {
     @DisplayName("saveProduit - Échec si le nom est null")
     void testSaveProduit_NullName() {
         Produit invalidProduit = new Produit();
-        invalidProduit.setNom(null);
-        invalidProduit.setPrix(10.0);
+        invalidProduit.setName(null);
+        invalidProduit.setPrice(10.0);
         invalidProduit.setStock(5);
 
         RuntimeException exception = assertThrows(RuntimeException.class,
@@ -152,8 +152,8 @@ class ProduitServiceImplTest {
     @DisplayName("saveProduit - Echec si le prix est negatif")
     void testSaveProduit_NegativePrice() {
         Produit invalidProduit = new Produit();
-        invalidProduit.setNom("Test");
-        invalidProduit.setPrix(-10.0);
+        invalidProduit.setName("Test");
+        invalidProduit.setPrice(-10.0);
         invalidProduit.setStock(5);
 
         RuntimeException exception = assertThrows(RuntimeException.class,
@@ -166,8 +166,8 @@ class ProduitServiceImplTest {
     @DisplayName("saveProduit - Echec si le stock est negatif")
     void testSaveProduit_NegativeStock() {
         Produit invalidProduit = new Produit();
-        invalidProduit.setNom("Test");
-        invalidProduit.setPrix(10.0);
+        invalidProduit.setName("Test");
+        invalidProduit.setPrice(10.0);
         invalidProduit.setStock(-1);
 
         RuntimeException exception = assertThrows(RuntimeException.class,
