@@ -1,7 +1,7 @@
 package com.storeshop.service;
 
-import com.storeshop.entity.AppRole;
-import com.storeshop.entity.AppUser;
+import com.storeshop.entity.Role;
+import com.storeshop.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,9 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -28,24 +25,20 @@ class UserDetailsServiceImplTest {
     @InjectMocks
     private UserDetailsServiceImpl userDetailsService;
 
-    private AppUser testUser;
+    private User testUser;
 
     @BeforeEach
     void setUp() {
-        AppRole adminRole = new AppRole("ADMIN");
-        AppRole userRole = new AppRole("USER");
-
-        testUser = AppUser.builder()
+        testUser = User.builder()
                 .userId("uuid-123")
                 .username("testuser")
                 .password("encodedPassword")
                 .email("test@gmail.com")
-                .roles(new ArrayList<>(Arrays.asList(adminRole, userRole)))
+                .role(Role.ADMIN)
                 .build();
     }
 
     @Test
-    @DisplayName("loadUserByUsername - Retourne les details de l'utilisateur")
     void testLoadUserByUsername_Success() {
         when(accountService.loadUserByUsername("testuser")).thenReturn(testUser);
 
@@ -54,15 +47,11 @@ class UserDetailsServiceImplTest {
         assertNotNull(result);
         assertEquals("testuser", result.getUsername());
         assertEquals("encodedPassword", result.getPassword());
-        // Spring Security ajoute le préfixe ROLE
         assertTrue(result.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
-        assertTrue(result.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_USER")));
     }
 
     @Test
-    @DisplayName("loadUserByUsername - Lève une exception si l'utilisateur n'existe pas")
     void testLoadUserByUsername_NotFound() {
         when(accountService.loadUserByUsername("unknown")).thenReturn(null);
 
@@ -71,14 +60,13 @@ class UserDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("loadUserByUsername - Utilisateur avec un seul rôle")
     void testLoadUserByUsername_SingleRole() {
-        AppUser singleRoleUser = AppUser.builder()
+        User singleRoleUser = User.builder()
                 .userId("uuid-456")
                 .username("simpleuser")
                 .password("pass")
                 .email("simple@gmail.com")
-                .roles(new ArrayList<>(Arrays.asList(new AppRole("USER"))))
+                .role(Role.USER)
                 .build();
 
         when(accountService.loadUserByUsername("simpleuser")).thenReturn(singleRoleUser);

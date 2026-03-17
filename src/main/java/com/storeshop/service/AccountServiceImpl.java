@@ -1,15 +1,14 @@
 package com.storeshop.service;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.storeshop.entity.AppRole;
-import com.storeshop.entity.AppUser;
-import com.storeshop.repository.AppRoleRepository;
-import com.storeshop.repository.AppUserRepository;
+import com.storeshop.entity.Role;
+import com.storeshop.entity.User;
+import com.storeshop.repository.UserRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
@@ -18,101 +17,48 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    private  AppUserRepository appUserRepository;
-    private AppRoleRepository appRoleRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository UserRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public AppUser AddUser(String username, String password, String email, String ConfirmPassword) {
-      AppUser appUser = appUserRepository.findByUsername(username);
-      if (appUser != null) throw new RuntimeException("User already exists");
+    public User AddUser(String username, String password, String email, String ConfirmPassword) {
+      // Check if the user already exists
+      User existingUser = UserRepository.findByUsername(username);
+      if (existingUser != null) throw new RuntimeException("User already exists");
+      
+      // Check if passwords match
       if (!password.equals(ConfirmPassword)) throw new RuntimeException("Passwords  not match");
-           appUser= AppUser.builder()
-                 .userId(UUID.randomUUID().toString())
-                 .username(username)
-                 .password(passwordEncoder.encode(password))
-                 .email(email)
-                 .build();
-        AppUser savedUser = appUserRepository.save(appUser);
-        return savedUser;
+      
+      // Create and save the new user
+      User newUser = User.builder()
+            .userId(UUID.randomUUID().toString())
+            .username(username)
+            .password(passwordEncoder.encode(password))
+            .email(email)
+            .role(Role.CLIENT)
+            .build();
         
-    }
-
-    @Override
-    public AppRole AddRole(String roleName) {
-        AppRole appRole = appRoleRepository.findByRoleName(roleName);
-        if (appRole != null) throw new RuntimeException("Role already exist");
-        appRole = AppRole.builder()
-                .roleName(roleName)
-                .build();
-        AppRole savedRole = appRoleRepository.save(appRole);
-        return savedRole;
-    }
-
-    @Override
-    // Méthode utilitaire pour créer un rôle uniquement s'il n'existe pas
-    public AppRole ensureRoleExists(String roleName) {
-        AppRole appRole = appRoleRepository.findByRoleName(roleName);
-        if (appRole == null) {
-            appRole = AppRole.builder()
-                    .roleName(roleName)
-                    .build();
-            appRole = appRoleRepository.save(appRole);
-        }
-        return appRole;
+      return UserRepository.save(newUser);   
     }
 
     @Override
     // Méthode utilitaire pour créer un utilisateur uniquement s'il n'existe pas
-    public AppUser ensureUserExists(String username, String password, String email) {
-        AppUser appUser = appUserRepository.findByUsername(username);
-        if (appUser == null) {
-            appUser = AppUser.builder()
+    public User ensureUserExists(String username, String password, String email) {
+        User existingUser = UserRepository.findByUsername(username);
+        if (existingUser == null) {
+            existingUser = User.builder()
                     .userId(UUID.randomUUID().toString())
                     .username(username)
                     .password(passwordEncoder.encode(password))
                     .email(email)
-                    .roles(new ArrayList<>())
+                    .role(Role.ADMIN)
                     .build();
-            appUser = appUserRepository.save(appUser);
+            existingUser = UserRepository.save(existingUser);
         }
-        return appUser;
-    }
-
-    @Override
-    public void AddRoleToUser(String username, String roleName) {
-
-        AppUser appUser = appUserRepository.findByUsername(username);
-        if (appUser == null) throw new RuntimeException("User not found");
-        AppRole appRole = appRoleRepository.findById(roleName).get();
-        if (appRole == null) throw new RuntimeException("Role not found");
-        
-        // Initialiser la liste de rôles si elle est null
-        if (appUser.getRoles() == null) {
-            appUser.setRoles(new ArrayList<>());
-        }
-        
-        // Vérifier si l'utilisateur a déjà ce rôle
-        if (!appUser.getRoles().contains(appRole)) {
-            appUser.getRoles().add(appRole);
-        }
-        // methode transactionnelle pas besion de faire save(appUser)
-        // appUserRepository.save(appUser);
-    }
-
-    @Override
-    public void removeRoleFromUser(String username, String roleName) {
-        AppUser appUser = appUserRepository.findByUsername(username);
-        if (appUser == null) throw new RuntimeException("User not found");
-        AppRole appRole = appRoleRepository.findById(roleName).get();
-        if (appRole == null) throw new RuntimeException("Role not found");
-        appUser.getRoles().remove(appRole);
-        // appUserRepository.save(appUser);
-    }
-
-    @Override
-    public AppUser loadUserByUsername(String username) {
-        return appUserRepository.findByUsername(username);
+        return existingUser;
+    }    @Override
+    public User loadUserByUsername(String username) {
+        return UserRepository.findByUsername(username);
     }
     
     

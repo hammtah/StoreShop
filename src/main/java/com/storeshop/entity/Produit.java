@@ -10,20 +10,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Entity representing a product in the store.
+ */
 @Entity @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class Produit {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String nom;
-
     @ManyToOne
     private Categorie categorie;
 
+    private String name;
     private String imageUrl;
     private String description;
-    private double prix;
+    private double price;
     private int stock;
 
 }

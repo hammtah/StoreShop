@@ -17,16 +17,10 @@ public class StoreShopApplication {
 	@Bean
 	CommandLineRunner CommandeLineRunnerDetails(AccountService accountService) {
 		return args -> {
-			// Créer les rôles uniquement s'ils n'existent pas
-			accountService.ensureRoleExists("USER");
-			accountService.ensureRoleExists("CLIENT");
-			accountService.ensureRoleExists("ADMIN");
-			
+
 			// Créer l'utilisateur admin uniquement s'il n'existe pas
 			accountService.ensureUserExists("admin", "1234", "admin@gmail.com");
-			
-			// Assigner le rôle ADMIN à admin (ne fait rien si déjà assigné)
-			accountService.AddRoleToUser("admin", "ADMIN");
+
 		};
 	}
 }

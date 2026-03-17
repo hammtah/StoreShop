@@ -1,16 +1,9 @@
 package com.storeshop.service;
 
-import com.storeshop.entity.AppRole;
-import com.storeshop.entity.AppUser;
+import com.storeshop.entity.User;
 
 public interface AccountService {
-    AppUser AddUser(String username, String password, String email, String ConfirmPassword);
-    AppRole AddRole (String roleName);
-    void AddRoleToUser(String username, String roleName);
-    void removeRoleFromUser(String username, String roleName);
-    AppUser loadUserByUsername(String username);
-    
-    // Méthodes utilitaires pour initialisation
-    AppRole ensureRoleExists(String roleName);
-    AppUser ensureUserExists(String username, String password, String email);
+    User AddUser(String username, String password, String email, String ConfirmPassword);
+    User loadUserByUsername(String username);    
+    User ensureUserExists(String username, String password, String email);
 }

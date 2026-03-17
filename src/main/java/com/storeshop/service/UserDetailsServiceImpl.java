@@ -1,29 +1,31 @@
 package com.storeshop.service;
 
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.storeshop.entity.AppUser;
+import com.storeshop.entity.User;
+
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private AccountService accountService;
+    private final AccountService accountService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AppUser appUser = accountService.loadUserByUsername(username);
+        User appUser = accountService.loadUserByUsername(username);
         if(appUser == null) throw new UsernameNotFoundException("User not found");
-        String[] roles = appUser.getRoles().stream().map(r -> r.getRoleName()).toArray(String[]::new);
-        UserDetails userDetails = User
+        
+        String role = appUser.getRole() != null ? appUser.getRole().name() : "USER";
+        
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
                 .withUsername(appUser.getUsername())
                 .password(appUser.getPassword())
-                .roles(roles).build();
+                .roles(role).build();
 
         return userDetails;
 

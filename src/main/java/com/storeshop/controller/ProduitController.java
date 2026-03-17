@@ -22,6 +22,7 @@ import com.storeshop.entity.Categorie;
 import com.storeshop.entity.Produit;
 import com.storeshop.service.CategorieService;
 import com.storeshop.service.ProduitService;
+
 import lombok.AllArgsConstructor;
 
 @Controller

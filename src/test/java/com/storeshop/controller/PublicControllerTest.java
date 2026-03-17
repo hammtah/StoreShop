@@ -59,12 +59,11 @@ class PublicControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(publicController).build();
-        categorie = new Categorie(1L, "Roman", null);
-        produit = new Produit(1L, "Livre Java", categorie, "/uploads/book.jpg", "Guide complet", 199.0, 12);
+        categorie = new Categorie(1L, null, "Roman");
+        produit = new Produit(1L, categorie, "Livre Java", "/uploads/book.jpg", "Guide complet", 199.0, 12);
     }
 
     @Test
-    @DisplayName("Test home - Catalogue public avec filtre catégorie")
     void testHome() {
         Page<Produit> page = new PageImpl<>(Arrays.asList(produit));
         when(produitService.searchProduitsPublic("java", 1L, 0, 8)).thenReturn(page);
@@ -79,7 +78,6 @@ class PublicControllerTest {
     }
 
     @Test
-    @DisplayName("Test home - Catalogue vide")
     void testHome_EmptyCatalog() {
         Page<Produit> page = new PageImpl<>(Collections.emptyList());
         when(produitService.searchProduitsPublic("", null, 0, 8)).thenReturn(page);
@@ -92,7 +90,6 @@ class PublicControllerTest {
     }
 
     @Test
-    @DisplayName("Test showProduitDetail - Retourne la vue détail")
     void testShowProduitDetail() {
         when(produitService.getProduitById(1L)).thenReturn(produit);
 
@@ -103,24 +100,18 @@ class PublicControllerTest {
     }
 
     @Test
-    @DisplayName("Test showRegisterForm - Retourne la vue inscription")
     void testShowRegisterForm() {
         assertEquals("public/register", publicController.showRegisterForm());
     }
 
     @Test
-    @DisplayName("Test register - Inscription réussie")
     void testRegister_Success() {
         String redirect = publicController.register("client1", "client1@gmail.com", "1234", "1234");
-
         assertEquals("redirect:/login?registered", redirect);
-        verify(accountService).ensureRoleExists("CLIENT");
         verify(accountService).AddUser("client1", "1234", "client1@gmail.com", "1234");
-        verify(accountService).AddRoleToUser("client1", "CLIENT");
     }
 
     @Test
-    @DisplayName("Test register - Erreur renvoie vers le formulaire avec les données")
     void testRegister_Error() {
         when(accountService.AddUser("client1", "1234", "client1@gmail.com", "0000"))
                 .thenThrow(new RuntimeException("Passwords  not match"));
@@ -130,12 +121,9 @@ class PublicControllerTest {
         assertTrue(redirect.startsWith("redirect:/register?error="));
         assertTrue(redirect.contains("username=client1"));
         assertTrue(redirect.contains("email=client1%40gmail.com"));
-        verify(accountService).ensureRoleExists("CLIENT");
-        verify(accountService, never()).AddRoleToUser("client1", "CLIENT");
     }
 
     @Test
-    @DisplayName("Test home avec MockMvc")
     void testHomeWithMockMvc() throws Exception {
         Page<Produit> page = new PageImpl<>(Arrays.asList(produit));
         when(produitService.searchProduitsPublic(eq(""), eq(null), anyInt(), eq(8))).thenReturn(page);
@@ -147,7 +135,6 @@ class PublicControllerTest {
     }
 
     @Test
-    @DisplayName("Test détail produit avec MockMvc")
     void testDetailWithMockMvc() throws Exception {
         when(produitService.getProduitById(1L)).thenReturn(produit);
 

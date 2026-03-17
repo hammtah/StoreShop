@@ -11,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity representing a product category in the store.
+ */
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Categorie {
@@ -18,8 +21,8 @@ public class Categorie {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   
-  private String nom;
-
   @OneToMany(mappedBy = "categorie")
   private List<Produit> produits;
+
+  private String nom;
 }

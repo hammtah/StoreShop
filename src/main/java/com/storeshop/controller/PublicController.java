@@ -14,6 +14,7 @@ import com.storeshop.entity.Produit;
 import com.storeshop.service.AccountService;
 import com.storeshop.service.CategorieService;
 import com.storeshop.service.ProduitService;
+
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -58,9 +59,7 @@ public class PublicController {
                            @RequestParam String password,
                            @RequestParam String confirmPassword) {
         try {
-            accountService.ensureRoleExists("CLIENT");
             accountService.AddUser(username, password, email, confirmPassword);
-            accountService.AddRoleToUser(username, "CLIENT");
             return "redirect:/login?registered";
         } catch (RuntimeException e) {
             return "redirect:/register?error=" + encode(e.getMessage())

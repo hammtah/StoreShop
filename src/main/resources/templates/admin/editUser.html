@@ -55,12 +55,12 @@
                         <div style="margin-bottom:24px;">
                             <label class="form-label-custom">Rôles</label>
                             <div style="background:var(--bg-surface2);border-radius:var(--radius-sm);border:1px solid var(--border);overflow:hidden;">
-                                <div th:each="role : ${allRoles}" class="form-check-custom">
-                                    <input type="checkbox" name="roles" th:value="${role.roleName}" th:id="${'role_' + role.roleName}" th:checked="${user.roles.contains(role)}" style="width:16px;height:16px;accent-color:var(--accent);">
-                                    <label th:for="${'role_' + role.roleName}" style="cursor:pointer;">
-                                        <span th:class="${role.roleName == 'ADMIN'} ? 'badge-role admin' : 'badge-role user'" th:text="${role.roleName}"></span>
-                                    </label>
-                                </div>
+                                  <div th:each="enumRole : ${allRoles}" class="form-check-custom">
+                                      <input type="radio" name="role" th:value="${enumRole.name()}" th:id="${'role_' + enumRole.name()}" th:checked="${user.role == enumRole}" style="width:16px;height:16px;accent-color:var(--accent);">
+                                      <label th:for="${'role_' + enumRole.name()}" style="cursor:pointer;">
+                                          <span th:class="${enumRole.name() == 'ADMIN'} ? 'badge-role admin' : 'badge-role user'" th:text="${enumRole.name()}"></span>
+                                      </label>
+                                  </div>
                             </div>
                         </div>
                         <div style="display:flex;gap:10px;">

@@ -71,9 +71,9 @@
                                 </td>
                                 <td style="color:#718096;" th:text="${user.email}"></td>
                                 <td>
-                                    <span th:each="role : ${user.roles}"
-                                          th:class="${role.roleName == 'ADMIN'} ? 'badge-role admin me-1' : 'badge-role user me-1'"
-                                          th:text="${role.roleName}"></span>
+                                    <span th:if="${user.role != null}" 
+                                          th:class="${user.role.name() == 'ADMIN'} ? 'badge-role admin me-1' : 'badge-role user me-1'"
+                                          th:text="${user.role.name()}"></span>
                                 </td>
                                 <td>
                                     <div style="display:flex;gap:6px;">

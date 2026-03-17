@@ -66,26 +66,26 @@ class ProduitControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(produitController).build();
         
         // Créer les catégories pour les tests
-        categorie1 = new Categorie(1L, "Electronique", null);
-        categorie2 = new Categorie(2L, "Informatique", null);
+        categorie1 = new Categorie(1L, null, "Electronique");
+        categorie2 = new Categorie(2L, null, "Informatique");
         
         // Créer les produits avec la nouvelle structure
         produit1 = new Produit();
         produit1.setId(1L);
-        produit1.setNom("Smartphone");
+        produit1.setName("Smartphone");
         produit1.setCategorie(categorie1);
         produit1.setImageUrl("https://example.com/smartphone.jpg");
         produit1.setDescription("Telephone portable S25 Ultra");
-        produit1.setPrix(800);
+        produit1.setPrice(800);
         produit1.setStock(100);
         
         produit2 = new Produit();
         produit2.setId(2L);
-        produit2.setNom("Ordinateur portable");
+        produit2.setName("Ordinateur portable");
         produit2.setCategorie(categorie2);
         produit2.setImageUrl("https://example.com/laptop.jpg");
         produit2.setDescription("PC portable 15 pouces");
-        produit2.setPrix(899.99);
+        produit2.setPrice(899.99);
         produit2.setStock(5);
     }
 
