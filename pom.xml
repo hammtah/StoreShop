@@ -8,11 +8,13 @@
 		<version>4.0.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.storeshop</groupId>
 	<artifactId>storeshop</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>storeshop</name>
 	<description>project for Spring MVC </description>
+
 	<url/>
 	<licenses>
 		<license/>
@@ -26,56 +28,73 @@
 		<tag/>
 		<url/>
 	</scm>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+
+    <!-- Spring Data JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+    <!-- Spring Thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+
+    <!-- Spring Web MVC -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 
+    <!-- MySQL Connector -->
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+    <!-- Lombok, for generating getters, setters, and constructors -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+    <!-- Spring Data JPA Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
+
+		<!-- Spring Thymeleaf Test -->
+    <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+    <!-- Spring Web MVC Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
+    <!-- Spring Boot Test -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 	   </dependency>
 
-		<!-- Source: https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<!-- Bootstrap WebJars -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
@@ -83,27 +102,29 @@
 			<scope>compile</scope>
 		</dependency>
 
+    <!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-	<!-- Thymeleaf Spring Security integration -->
-	<dependency>
-		<groupId>org.thymeleaf.extras</groupId>
-		<artifactId>thymeleaf-extras-springsecurity6</artifactId>
-	</dependency>
-		<!-- Source: https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
-		<dependency>
-			<groupId>nz.net.ultraq.thymeleaf</groupId>
-			<artifactId>thymeleaf-layout-dialect</artifactId>
-			<version>3.4.0</version>
-			<scope>compile</scope>
-		</dependency>
 
-	</dependencies>
+    <!-- Thymeleaf Spring Security integration -->
+    <dependency>
+      <groupId>org.thymeleaf.extras</groupId>
+      <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+    </dependency>
+
+		<!-- Thymeleaf Layout Dialect -->
+      <dependency>
+        <groupId>nz.net.ultraq.thymeleaf</groupId>
+        <artifactId>thymeleaf-layout-dialect</artifactId>
+      </dependency>
+  </dependencies>
 
 	<build>
 		<plugins>
+
+      <!-- Maven Compiler Plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -117,6 +138,7 @@
 				</configuration>
 			</plugin>
 
+      <!-- Spring Boot Maven Plugin -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -131,16 +153,13 @@
 			</plugin>
 
       <plugin>
-        <groupId>de.elnarion.maven</groupId>
-        <artifactId>plantuml-generator-maven-plugin</artifactId>
-        <version>2.1.0</version>
+        <groupId>com.spotify.fmt</groupId>
+        <artifactId>fmt-maven-plugin</artifactId>
+        <version>2.23</version>
         <configuration>
-            <outputFilename>diagram.puml</outputFilename>
-            <scanPackages>
-                <scanPackage>com.storeshop</scanPackage>
-            </scanPackages>
-        </configuration>
-    </plugin>
+        <style>GOOGLE</style>
+    </configuration>
+      </plugin>
 		</plugins>
 	</build>
 
