@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${produit.nom} + ' — StoreShop'">Détail Produit</title>
+    <title th:text="${produit.name} + ' — StoreShop'">Détail Produit</title>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.8/css/bootstrap.min.css}" />
     <link rel="stylesheet" th:href="@{/css/public.css}" />
 </head>
@@ -33,7 +33,7 @@
         <!-- Image -->
         <div class="detail-media">
             <img th:if="${produit.imageUrl != null and !produit.imageUrl.isEmpty()}"
-                 th:src="${produit.imageUrl}" th:alt="${produit.nom}">
+                 th:src="${produit.imageUrl}" th:alt="${produit.name}">
             <div th:unless="${produit.imageUrl != null and !produit.imageUrl.isEmpty()}"
                  class="detail-placeholder">📦</div>
         </div>
@@ -42,7 +42,7 @@
         <div>
             <span class="detail-cat" th:text="${produit.categorie != null ? produit.categorie.nom : 'Général'}"></span>
 
-            <h1 class="detail-title" th:text="${produit.nom}"></h1>
+            <h1 class="detail-title" th:text="${produit.name}"></h1>
 
             <p class="detail-description"
                th:text="${produit.description != null and !produit.description.isEmpty() ? produit.description : 'Aucune description disponible.'}"></p>
@@ -52,7 +52,7 @@
                 <div>
                     <div class="detail-stat-label">Prix</div>
                     <div class="detail-stat-value amber"
-                         th:text="${#numbers.formatDecimal(produit.prix, 1, 2)} + ' €'"></div>
+                         th:text="${#numbers.formatDecimal(produit.price, 1, 2)} + ' €'"></div>
                 </div>
                 <div style="width:1px;background:rgba(247,244,238,0.12);"></div>
                 <div>

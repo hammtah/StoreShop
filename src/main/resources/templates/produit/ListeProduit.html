@@ -71,7 +71,7 @@
                                     <div th:unless="${produit.imageUrl != null and !produit.imageUrl.isEmpty()}"
                                          style="width:44px;height:44px;border-radius:8px;background:var(--bg-surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;">📦</div>
                                 </td>
-                                <td><strong th:text="${produit.nom}"></strong></td>
+                                <td><strong th:text="${produit.name}"></strong></td>
                                 <td>
                                     <span th:if="${produit.categorie != null}" class="badge-role user" th:text="${produit.categorie.nom}"></span>
                                     <span th:unless="${produit.categorie != null}" style="font-size:11px;color:#a0aec0;">—</span>
@@ -79,7 +79,7 @@
                                 <td style="color:var(--text-secondary);max-width:200px;">
                                     <span th:text="${#strings.abbreviate(produit.description, 55)}"></span>
                                 </td>
-                                <td><strong th:text="${produit.prix} + ' €'"></strong></td>
+                                <td><strong th:text="${produit.price} + ' €'"></strong></td>
                                 <td>
                                     <span th:if="${produit.stock > 10}" style="display:inline-flex;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;background:#ecfdf5;color:#059669;" th:text="${produit.stock}"></span>
                                     <span th:unless="${produit.stock > 10}" style="display:inline-flex;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;background:#fffbeb;color:#d97706;" th:text="${produit.stock}"></span>

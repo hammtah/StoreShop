@@ -43,7 +43,7 @@
                             <div class="panel-body" style="display:flex;flex-direction:column;gap:14px;">
                                 <div>
                                     <label for="nom" class="form-label-custom">Nom du produit *</label>
-                                    <input type="text" th:field="*{nom}" class="form-control-custom" id="nom" required>
+                                    <input type="text" th:field="*{name}" class="form-control-custom" id="nom" required>
                                 </div>
                                 <div>
                                     <label for="categorieId" class="form-label-custom">Catégorie *</label>
@@ -90,7 +90,7 @@
                             <div class="panel-body" style="display:flex;flex-direction:column;gap:14px;">
                                 <div>
                                     <label for="prix" class="form-label-custom">Prix (€) *</label>
-                                    <input type="number" step="0.01" th:field="*{prix}" class="form-control-custom" id="prix" required>
+                                    <input type="number" step="0.01" th:field="*{price}" class="form-control-custom" id="prix" required>
                                 </div>
                                 <div>
                                     <label for="stock" class="form-label-custom">Stock *</label>
