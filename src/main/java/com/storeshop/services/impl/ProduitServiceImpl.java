@@ -11,6 +11,7 @@ import com.storeshop.services.ProduitService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
+/** {@link ProduitService} implementation delegating queries and persistence to the repository. */
 @Service
 @Transactional
 @AllArgsConstructor
@@ -20,7 +21,6 @@ public class ProduitServiceImpl implements ProduitService {
 
   @Override
   public Page<Produit> searchProduits(String search, int page, int size) {
-    // Use the repository search method
     return produitRepository.searchProduits(search, PageRequest.of(page, size));
   }
 
@@ -28,19 +28,18 @@ public class ProduitServiceImpl implements ProduitService {
   public Page<Produit> searchProduitsPublic(String search, Long categorieId, int page, int size) {
     String normalizedSearch = search == null ? "" : search.trim();
     return produitRepository.searchProduitsPublic(
-      normalizedSearch, categorieId, PageRequest.of(page, size));
+        normalizedSearch, categorieId, PageRequest.of(page, size));
   }
 
   @Override
   public Produit getProduitById(Long id) {
     return produitRepository
-      .findById(id)
-      .orElseThrow(() -> new RuntimeException("Produit non trouve avec id: " + id));
+        .findById(id)
+        .orElseThrow(() -> new RuntimeException("Produit non trouve avec id: " + id));
   }
 
   @Override
   public Produit saveProduit(Produit produit) {
-    // Basic validation
     if (produit.getName() == null || produit.getName().trim().isEmpty()) {
       throw new RuntimeException("Le nom du produit ne peut pas etre vide");
     }
