@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequestMapping("/admin/produits")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProduitController {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ProduitController.class);
