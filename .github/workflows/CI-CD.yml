@@ -1,4 +1,4 @@
-name: Build, Test and Deploy to VPS Via Docker Compose
+name: Build, Test and Deploy
 
 on:
   push:
